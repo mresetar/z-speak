@@ -2,7 +2,7 @@
 # Build:  hugo            -> ./public
 # Serve:  hugo server -D  -> http://localhost:1313
 
-baseURL = "/"
+baseURL = "https://mresetar.github.io/z-speak/"
 locale = "en-us"
 title = "ZSpeak"
 enableGitInfo = true
@@ -13,8 +13,8 @@ summaryLength = 20
 [params]
   subtitle = "The IBM Z Mainframe Glossary"
   description = "Short, accurate explanations of the terms you meet on IBM Z and z/OS."
-  # Shown in the footer; set to your GitLab project URL.
-  repo = ""
+  # Shown in the footer; set to your GitHub project URL.
+  repo = "https://github.com/mresetar/z-speak"
   edit_path = "content"
 
 [taxonomies]
