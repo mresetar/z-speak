@@ -27,7 +27,7 @@
       <div class="totd-foot">
         <span>
           <a class="btn" id="totd-read" href="{{ .RelPermalink }}">Read the entry →</a>
-          <a class="btn btn-ghost" href="{{ "/terms/" | relURL }}#random">Surprise me</a>
+          <a class="btn btn-ghost" href="{{ "terms/" | relLangURL }}#random">Surprise me</a>
         </span>
         <span class="totd-cat" id="totd-cat">{{ index (.Params.categories | default (slice "")) 0 }}</span>
       </div>
@@ -56,7 +56,7 @@
   {{ end }}
 </nav>
 
-<div class="sec-head"><h2>Everything, A to Z</h2><a href="{{ "/tags/" | relURL }}">Browse by tag →</a></div>
+<div class="sec-head"><h2>Everything, A to Z</h2><a href="{{ "tags/" | relLangURL }}">Browse by tag →</a></div>
 {{ partial "index-list.html" . }}
 
 <script>

@@ -1,6 +1,6 @@
 <header class="site-head">
   <div class="wrap head-inner">
-    <a class="brand" href="{{ "/" | relURL }}">
+    <a class="brand" href="{{ "" | relLangURL }}">
       <span class="brand-mark">Z</span>
       <span class="brand-text">
         <strong>ZSpeak</strong>
@@ -8,11 +8,11 @@
       </span>
     </a>
     <nav class="site-nav">
-      <a href="{{ "/terms/" | relURL }}">All terms</a>
-      <a href="{{ "/categories/" | relURL }}">Categories</a>
-      <a href="{{ "/tags/" | relURL }}">Tags</a>
-      <a class="nav-random" href="{{ "/terms/" | relURL }}#random" title="Open a random term">Surprise me</a>
-      <a class="nav-term" href="{{ "/tn3270/" | relURL }}" title="Log on to a simulated mainframe: TSO, ISPF, JCL, SDSF">Try a terminal</a>
+      <a href="{{ "terms/" | relLangURL }}">All terms</a>
+      <a href="{{ "categories/" | relLangURL }}">Categories</a>
+      <a href="{{ "tags/" | relLangURL }}">Tags</a>
+      <a class="nav-random" href="{{ "terms/" | relLangURL }}#random" title="Open a random term">Surprise me</a>
+      <a class="nav-term" href="{{ "tn3270/" | relLangURL }}" title="Log on to a simulated mainframe: TSO, ISPF, JCL, SDSF">Try a terminal</a>
       <button class="theme-btn" id="theme-btn" type="button" title="Switch between automatic, light and dark">theme: auto</button>
     </nav>
   </div>

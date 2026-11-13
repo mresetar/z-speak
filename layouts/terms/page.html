@@ -3,8 +3,8 @@
 {{ $all := (where site.RegularPages "Section" "terms").ByTitle }}
 <article class="term" data-cat="{{ $cat | urlize }}">
   <nav class="crumbs">
-    <a href="{{ "/terms/" | relURL }}">All terms</a>
-    {{ with $cat }}<span>/</span><a href="{{ (print "/categories/" (urlize .) "/") | relURL }}">{{ . }}</a>{{ end }}
+    <a href="{{ "terms/" | relLangURL }}">All terms</a>
+    {{ with $cat }}<span>/</span><a href="{{ (print "categories/" (urlize .) "/") | relLangURL }}">{{ . }}</a>{{ end }}
     <span>/</span>{{ .Title }}
   </nav>
 
