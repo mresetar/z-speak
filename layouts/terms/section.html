@@ -1,0 +1,7 @@
+{{ define "main" }}
+<section class="page-head">
+  <h1>All terms</h1>
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+</section>
+{{ partial "index-list.html" . }}
+{{ end }}

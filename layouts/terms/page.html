@@ -1,0 +1,69 @@
+{{ define "main" }}
+{{ $cat := index (.Params.categories | default (slice "")) 0 }}
+{{ $all := (where site.RegularPages "Section" "terms").ByTitle }}
+<article class="term" data-cat="{{ $cat | urlize }}">
+  <nav class="crumbs">
+    <a href="{{ "/terms/" | relURL }}">All terms</a>
+    {{ with $cat }}<span>/</span><a href="{{ (print "/categories/" (urlize .) "/") | relURL }}">{{ . }}</a>{{ end }}
+    <span>/</span>{{ .Title }}
+  </nav>
+
+  <header class="term-head">
+    <h1>{{ .Title }}</h1>
+    {{ partial "term-meta.html" . }}
+    {{ with .Params.short }}<p class="short">{{ . }}</p>{{ end }}
+  </header>
+
+  <div class="term-layout">
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    <aside class="side">
+      {{ with .Params.aka }}
+      <div class="side-box">
+        <h2>Also called</h2>
+        <div class="aka-list">{{ range . }}<span>{{ . }}</span>{{ end }}</div>
+      </div>
+      {{ end }}
+      {{ if or .Params.ref .Params.links }}
+      <div class="side-box">
+        <h2>Read more</h2>
+        <ul>
+          {{ with .Params.ref }}<li><a href="{{ .url }}" target="_blank" rel="noopener">{{ with .title }}{{ . }}{{ else }}Definitive reference{{ end }}&nbsp;↗</a></li>{{ end }}
+          {{ range .Params.links }}<li><a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}&nbsp;↗</a></li>{{ end }}
+        </ul>
+      </div>
+      {{ end }}
+    </aside>
+  </div>
+
+  {{ with .Params.related }}
+  <section class="related">
+    <h2>Related terms</h2>
+    <ul class="rel-list">
+      {{ range . }}
+        {{ $name := . }}
+        {{ $hit := index (where $all "Title" $name) 0 }}
+        {{ with $hit }}
+          <li data-cat="{{ index (.Params.categories | default (slice "")) 0 | urlize }}"><a href="{{ .RelPermalink }}"><span class="t-name">{{ .Title }}</span>{{ with .Params.short }}<span class="t-short">{{ . }}</span>{{ end }}</a></li>
+        {{ else }}
+          <li class="missing"><span class="t-name">{{ $name }}</span><span class="t-short">not documented yet</span></li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+
+  {{/* Alphabetical neighbours. Hugo's Pages.Next is the item earlier in the list. */}}
+  <nav class="pager">
+    {{ with $all.Next . }}<a class="prev" href="{{ .RelPermalink }}"><small>← Previous</small>{{ .Title }}</a>{{ end }}
+    {{ with $all.Prev . }}<a class="next" href="{{ .RelPermalink }}"><small>Next →</small>{{ .Title }}</a>{{ end }}
+  </nav>
+
+  <footer class="term-foot muted">
+    {{ with .Lastmod }}Last updated {{ .Format "2006-01-02" }} · {{ end }}
+    <code>{{ path.Join "content" .File.Path }}</code>
+  </footer>
+</article>
+{{ end }}

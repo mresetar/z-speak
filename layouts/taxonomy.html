@@ -1,0 +1,22 @@
+{{ define "main" }}
+<section class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+</section>
+{{ if eq .Data.Plural "categories" }}
+<section class="cat-grid">
+  {{ range .Pages.ByTitle }}
+  <a class="cat-card" data-cat="{{ .Title | urlize }}" href="{{ .RelPermalink }}">
+    <span class="cat-name">{{ .Title }}</span>
+    <span class="cat-count"><b>{{ len .Pages }}</b> terms</span>
+  </a>
+  {{ end }}
+</section>
+{{ else }}
+<section class="tag-cloud">
+  {{ range .Pages.ByTitle }}
+  <a class="chip" href="{{ .RelPermalink }}">#{{ .Title }}<sup>{{ len .Pages }}</sup></a>
+  {{ end }}
+</section>
+{{ end }}
+{{ end }}

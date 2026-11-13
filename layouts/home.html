@@ -1,0 +1,85 @@
+{{ define "hero" }}
+{{ $terms := (where site.RegularPages "Section" "terms").ByTitle }}
+{{/* Build-time pick, so the card is never empty; the script below replaces it
+     with the pick for the reader's own date. Same formula in both places. */}}
+{{ $day := div now.Unix 86400 }}
+{{ $pick := index $terms (mod (mul $day 7919) (len $terms)) }}
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="hero-kicker">{{ site.Params.subtitle }}</p>
+      <h1>Speak <span class="nw"><em>mainframe</em><span class="cursor" aria-hidden="true"></span></span></h1>
+      <p class="lede">{{ site.Params.description }}</p>
+      <ul class="stats">
+        <li><b>{{ len $terms }}</b><span>terms</span></li>
+        <li><b>{{ len site.Taxonomies.categories }}</b><span>categories</span></li>
+        <li><b>{{ len site.Taxonomies.tags }}</b><span>tags</span></li>
+      </ul>
+      <p class="hero-sub">Press <kbd>/</kbd> to search · <kbd>Enter</kbd> opens the top hit · <kbd>Esc</kbd> clears</p>
+    </div>
+
+    {{ with $pick }}
+    <article class="totd" id="totd" data-cat="{{ index (.Params.categories | default (slice "")) 0 | urlize }}">
+      <p class="totd-kicker"><b>Term of the day</b> <span id="totd-date">{{ now.Format "Mon 2 Jan" }}</span></p>
+      <h2><a id="totd-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <p class="totd-exp" id="totd-exp">{{ .Params.expansion }}</p>
+      <p class="totd-short" id="totd-short">{{ .Params.short }}</p>
+      <div class="totd-foot">
+        <span>
+          <a class="btn" id="totd-read" href="{{ .RelPermalink }}">Read the entry →</a>
+          <a class="btn btn-ghost" href="{{ "/terms/" | relURL }}#random">Surprise me</a>
+        </span>
+        <span class="totd-cat" id="totd-cat">{{ index (.Params.categories | default (slice "")) 0 }}</span>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{ define "main" }}
+{{ with site.GetPage "categories" }}
+<div class="sec-head"><h2>Browse by category</h2><a href="{{ .RelPermalink }}">All categories →</a></div>
+<section class="cat-grid">
+  {{ range .Pages.ByTitle }}
+  <a class="cat-card" data-cat="{{ .Title | urlize }}" href="{{ .RelPermalink }}">
+    <span class="cat-name">{{ .Title }}</span>
+    <span class="cat-count"><b>{{ len .Pages }}</b> terms</span>
+  </a>
+  {{ end }}
+</section>
+{{ end }}
+
+<nav class="tag-cloud quick" aria-label="Popular topics">
+  {{ range $t := slice "language" "jcl" "cics" "db2" "ims" "security" "sysplex" "tooling" }}
+  {{ with site.GetPage (print "/tags/" $t) }}<a class="chip" href="{{ .RelPermalink }}">{{ if eq $t "language" }}Programming languages{{ else }}#{{ .Title }}{{ end }}<sup>{{ len .Pages }}</sup></a>{{ end }}
+  {{ end }}
+</nav>
+
+<div class="sec-head"><h2>Everything, A to Z</h2><a href="{{ "/tags/" | relURL }}">Browse by tag →</a></div>
+{{ partial "index-list.html" . }}
+
+<script>
+/* Term of the day: one term per calendar day in the reader's own time zone.
+   The order is a fixed shuffle of the A–Z list, so every term gets its day
+   before any repeats. */
+(function () {
+  var items = document.querySelectorAll('#index .term-item'), card = document.getElementById('totd');
+  if (!items.length || !card) return;
+  var now = new Date(),
+      day = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5),
+      li = items[(day * 7919) % items.length],
+      a = li.querySelector('a'),
+      txt = function (sel) { var e = li.querySelector(sel); return e ? e.textContent : ''; };
+  card.setAttribute('data-cat', li.getAttribute('data-cat') || '');
+  document.getElementById('totd-link').textContent = txt('.t-name');
+  document.getElementById('totd-link').href = a.href;
+  document.getElementById('totd-read').href = a.href;
+  document.getElementById('totd-exp').textContent = txt('.t-exp');
+  document.getElementById('totd-short').textContent = txt('.t-short');
+  document.getElementById('totd-cat').textContent = li.getAttribute('data-cat-name') || '';
+  document.getElementById('totd-date').textContent =
+    now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+})();
+</script>
+{{ end }}

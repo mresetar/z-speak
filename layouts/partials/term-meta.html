@@ -1,0 +1,5 @@
+{{ with .Params.expansion }}<p class="expansion">{{ . }}</p>{{ end }}
+<div class="chips">
+  {{ range .Params.categories }}<a class="chip chip-cat" href="{{ (print "/categories/" (urlize .) "/") | relURL }}">{{ . }}</a>{{ end }}
+  {{ range .Params.tags }}<a class="chip" href="{{ (print "/tags/" (urlize .) "/") | relURL }}">#{{ . }}</a>{{ end }}
+</div>

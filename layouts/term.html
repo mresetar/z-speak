@@ -1,0 +1,19 @@
+{{ define "main" }}
+{{ $isCat := eq .Data.Plural "categories" }}
+<section class="page-head{{ if $isCat }} is-cat{{ end }}"{{ if $isCat }} data-cat="{{ .Title | urlize }}"{{ end }}>
+  <p class="kicker">{{ .Data.Singular | title }}</p>
+  <h1>{{ if not $isCat }}#{{ end }}{{ .Title }}</h1>
+  <p class="muted">{{ len .Pages }} term{{ if ne (len .Pages) 1 }}s{{ end }}</p>
+</section>
+<ul class="term-list">
+  {{ range .Pages.ByTitle }}
+  <li class="term-item" data-cat="{{ index (.Params.categories | default (slice "")) 0 | urlize }}">
+    <a href="{{ .RelPermalink }}">
+      <span class="t-name">{{ .Title }}</span>
+      {{ with .Params.expansion }}<span class="t-exp">{{ . }}</span>{{ end }}
+    </a>
+    {{ with .Params.short }}<p class="t-short">{{ . }}</p>{{ end }}
+  </li>
+  {{ end }}
+</ul>
+{{ end }}

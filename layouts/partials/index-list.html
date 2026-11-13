@@ -1,0 +1,118 @@
+{{ $terms := where site.RegularPages "Section" "terms" }}
+{{ $byLetter := dict }}
+{{ range $terms.ByTitle }}
+  {{ $l := substr .Title 0 1 | upper }}
+  {{ $cur := index $byLetter $l | default slice }}
+  {{ $byLetter = merge $byLetter (dict $l ($cur | append .)) }}
+{{ end }}
+
+<div class="finder">
+  <div class="cmd">
+    <label for="q">FIND<span> ===&gt;</span></label>
+    <input id="q" type="search" placeholder="{{ len $terms }} terms — try vsam, sysplex, security…" autocomplete="off" spellcheck="false">
+    <p class="hint" id="hint" aria-live="polite"></p>
+  </div>
+  <nav class="az" aria-label="Jump to letter">
+    {{ range $l, $pages := $byLetter }}<a href="#l-{{ $l | urlize }}" data-letter="{{ $l }}">{{ $l }}</a>{{ end }}
+  </nav>
+</div>
+
+<section id="results" class="letter-block" hidden>
+  <h2 class="letter">Best matches</h2>
+  <ul class="term-list" id="results-list"></ul>
+</section>
+
+<div id="index">
+{{ range $l, $pages := $byLetter }}
+  <section class="letter-block" id="l-{{ $l | urlize }}" data-letter="{{ $l }}">
+    <h2 class="letter">{{ $l }}</h2>
+    <ul class="term-list">
+      {{ range $pages }}
+      {{ $cat := index (.Params.categories | default (slice "")) 0 }}
+      <li class="term-item" data-cat="{{ $cat | urlize }}" data-cat-name="{{ $cat }}"
+          data-title="{{ lower .Title }}" data-aka="{{ lower (delimit (.Params.aka | default slice) "|") }}"
+          data-search="{{ lower (printf "%s %s %s %s %s %s" .Title (.Params.expansion | default "") (.Params.short | default "") (delimit (.Params.aka | default slice) " ") (delimit (.Params.tags | default slice) " ") (delimit (.Params.categories | default slice) " ")) }}">
+        <a href="{{ .RelPermalink }}">
+          <span class="t-name">{{ .Title }}</span>
+          {{ with .Params.expansion }}<span class="t-exp">{{ . }}</span>{{ end }}
+        </a>
+        {{ with .Params.ref }}<a class="t-ref" href="{{ .url }}" target="_blank" rel="noopener" title="Definitive reference: {{ with .title }}{{ . }}{{ end }}">↗</a>{{ end }}
+        {{ with .Params.short }}<p class="t-short">{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </section>
+{{ end }}
+</div>
+<p id="noresults" class="noresults" hidden>No term matches that. <a href="#" id="clearq">Clear the filter</a> — or add the term to <code>content/terms/</code>.</p>
+
+<script>
+(function () {
+  var q = document.getElementById('q'),
+      items = Array.prototype.slice.call(document.querySelectorAll('#index .term-item')),
+      letters = Array.prototype.slice.call(document.querySelectorAll('.az a')),
+      hint = document.getElementById('hint'),
+      none = document.getElementById('noresults');
+
+  /* "Surprise me": any link to …#random lands here and is sent to a random term. */
+  function random() {
+    if (location.hash !== '#random' || !items.length) return false;
+    location.replace(items[Math.floor(Math.random() * items.length)].querySelector('a').href);
+    return true;
+  }
+  if (random()) return;
+  window.addEventListener('hashchange', random);
+
+  var index = document.getElementById('index'),
+      results = document.getElementById('results'),
+      list = document.getElementById('results-list');
+
+  /* Lower is better: the term itself first, then its aliases, then anything
+     that only mentions the query in its expansion, summary, tags or category. */
+  function rank(li, v) {
+    var t = li.dataset.title, akas = li.dataset.aka ? li.dataset.aka.split('|') : [], i;
+    if (t === v) return 0;
+    if (akas.indexOf(v) !== -1) return 1;
+    if (t.indexOf(v) === 0) return 2;
+    if ((' ' + t.replace(/[^a-z0-9]+/g, ' ')).indexOf(' ' + v) !== -1) return 3;
+    for (i = 0; i < akas.length; i++) if (akas[i].indexOf(v) === 0) return 4;
+    if (t.indexOf(v) !== -1) return 5;
+    for (i = 0; i < akas.length; i++) if (akas[i].indexOf(v) !== -1) return 6;
+    return 7;
+  }
+
+  function apply(v) {
+    v = v.trim().toLowerCase();
+    var hits = [];
+    if (v) {
+      items.forEach(function (li, i) {
+        if (li.dataset.search.indexOf(v) !== -1) hits.push({ li: li, r: rank(li, v), i: i });
+      });
+      hits.sort(function (a, b) { return a.r - b.r || a.i - b.i; });
+    }
+    list.textContent = '';
+    hits.forEach(function (h) { list.appendChild(h.li.cloneNode(true)); });
+    index.hidden = !!v;
+    results.hidden = !hits.length;
+    letters.forEach(function (a) { a.classList.toggle('off', !!v); });
+    hint.textContent = v ? hits.length + ' of ' + items.length : '';
+    none.hidden = !(v && !hits.length);
+    if (history.replaceState) {
+      history.replaceState(null, '', v ? '#q=' + encodeURIComponent(v) : location.pathname);
+    }
+  }
+  q.addEventListener('input', function () { apply(q.value); });
+  document.getElementById('clearq').addEventListener('click', function (e) {
+    e.preventDefault(); q.value = ''; apply(''); q.focus();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); }
+    if (e.key === 'Escape' && document.activeElement === q) { q.value = ''; apply(''); }
+    if (e.key === 'Enter' && document.activeElement === q && list.firstElementChild) {
+      location.href = list.firstElementChild.querySelector('a').href;
+    }
+  });
+  var m = /#q=(.*)$/.exec(location.hash);
+  if (m) { q.value = decodeURIComponent(m[1]); apply(q.value); }
+})();
+</script>

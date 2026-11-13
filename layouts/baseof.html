@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ site.Title }} — {{ site.Params.subtitle }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Params.short }}{{ . }}{{ else }}{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('zspeak-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  {{ with resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{ end }}
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230b1220'/><text x='16' y='24' font-size='22' font-family='monospace' font-weight='700' text-anchor='middle' fill='%235ff59a'>Z</text></svg>">
+</head>
+<body>
+  {{ partial "header.html" . }}
+  {{ block "hero" . }}{{ end }}
+  <main class="wrap">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  <script>
+    (function () {
+      var btn = document.getElementById('theme-btn'), root = document.documentElement;
+      if (!btn) return;
+      var order = ['auto', 'light', 'dark'];
+      function show() { btn.textContent = 'theme: ' + (root.getAttribute('data-theme') || 'auto'); }
+      btn.addEventListener('click', function () {
+        var next = order[(order.indexOf(root.getAttribute('data-theme')) + 1) % order.length];
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('zspeak-theme', next); } catch (e) {}
+        show();
+      });
+      show();
+    })();
+  </script>
+</body>
+</html>
