@@ -109,22 +109,27 @@ build, no service to run, works offline. Press <kbd>/</kbd> to focus it.
 No external Hugo theme, no npm, no submodule — `hugo` and a git clone are the
 whole toolchain.
 
-## Publishing (not wired up yet)
+## Publishing
 
-The build is a single command producing a directory, so any of these is a small
-step when you want it:
+The site deploys automatically to **GitHub Pages** on every push to `main`:
 
-- **GitLab Pages** — a `.gitlab-ci.yml` with a `hugo` image, `script: hugo --gc
-  --minify -d public`, and `artifacts: paths: [public]` under a `pages` job.
-  Run `python3 tools/check.py` as a preceding stage so a bad merge request fails
-  before it publishes.
-- **Confluence** — the source Markdown converts cleanly
-  (`pandoc -f markdown -t html content/terms/cics.md`), so a page-per-term or a
-  single rolled-up page can be pushed through the Confluence REST API. Keep the
-  Markdown as the source of truth and treat Confluence as a rendering target,
-  not a second place to edit.
+- Live at <https://mresetar.github.io/z-speak/>
+- Pipeline: `.github/workflows/hugo.yml` — builds with Hugo extended and deploys
+  `public/` via the official Pages actions (repo → Settings → Pages →
+  Source: *GitHub Actions*).
+- `baseURL` in `hugo.toml` must stay in sync with the Pages URL; the workflow
+  also sets it explicitly for the CI build.
 
----
+Before pushing, run the linter:
+
+```bash
+python3 tools/check.py
+```
+
+## License
+
+Code and glossary content are licensed under the [Apache License 2.0](LICENSE).
+It is linked from the footer of every page, including the front page.
 
 IBM, IBM Z, z/OS, CICS, Db2, IMS and MQ are trademarks of IBM Corp. This glossary
 is an independent reference and is not affiliated with IBM.
