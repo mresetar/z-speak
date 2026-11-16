@@ -23,9 +23,10 @@
     }
     const ch = s.ch.slice(), cl = s.cl.slice();
     for (const f of s.fields) {
+      const hl = f.hl ? f.hl(f.buf.join('')) : null;   // syntax colours, recomputed as you type
       for (let i = 0; i < f.len; i++) {
         ch[f.pos + i] = f.hidden ? ' ' : f.buf[i];
-        cl[f.pos + i] = f.cls;
+        cl[f.pos + i] = hl && hl[i] ? f.cls + ' c-' + hl[i] : f.cls;
       }
     }
     let html = '';
@@ -131,7 +132,7 @@
     b.className = 'btn' + ([3, 7, 8].includes(i) ? ' hot' : '');
     b.dataset.aid = 'PF' + i;
     b.textContent = 'PF' + i;
-    b.title = { 1: 'Help', 3: 'Exit / back', 7: 'Scroll up', 8: 'Scroll down', 10: 'Left', 11: 'Right', 12: 'Cancel' }[i] || '';
+    b.title = { 1: 'Help', 3: 'Exit / back', 5: 'Repeat find', 6: 'Repeat change', 7: 'Scroll up', 8: 'Scroll down', 10: 'Left', 11: 'Right', 12: 'Cancel' }[i] || '';
     pfrow.appendChild(b);
   }
   $('keys').addEventListener('mousedown', e => e.preventDefault()); // keep focus in the terminal
@@ -188,7 +189,7 @@
       t: 'TSO READY prompt',
       p: ['<b>READY</b> is TSO\'s command prompt, the mainframe\'s answer to a shell. Commands are uppercase (lowercase is fine, TSO folds it). Success is often silent: no message means it worked.',
         'Data set names without quotes get your <b>prefix</b> added, so <code>JCL</code> means <code>Z85188.JCL</code>. Quotes mean "exactly this name": <code>\'ZXP.PUBLIC.JCL\'</code>.'],
-      try: 'Try <b>TIME</b>, <b>LISTCAT</b>, <b>LISTDS JCL MEMBERS</b>, <b>SUBMIT JCL(HELLO)</b>, <b>HELP</b>, then <b>ISPF</b>.',
+      try: 'Try <b>TIME</b>, <b>LISTCAT</b>, <b>LISTDS JCL MEMBERS</b>, <b>EXEC SOURCE(GREET)</b>, <b>SUBMIT JCL(HELLO)</b>, <b>HELP</b>, then <b>ISPF</b>.',
       w: ['tso', 'data-set', 'high-level-qualifier', 'catalog'],
     },
     'ispf-main': {
@@ -198,7 +199,75 @@
       try: 'Type <b>3.4</b> and press Enter to list your data sets. Or <b>6</b> for a TSO command shell, <b>S</b> for SDSF.',
       w: ['ispf', 'tso'],
     },
-    'ispf-util': { t: 'Utility Selection Panel', p: ['The ISPF utilities. Option 4 (Dslist) is the one everybody uses.'], try: 'Type <b>4</b>.', w: ['ispf'] },
+    'ispf-util': {
+      t: 'Utility Selection Panel',
+      p: ['The ISPF utilities for data sets. <b>1</b> works on the members of a library, <b>2</b> creates, renames and deletes whole data sets, <b>3</b> copies and moves, and <b>4</b> (Dslist) lists data sets so you can do all of that from one screen.'],
+      try: 'Type <b>2</b> to allocate a data set, or <b>4</b> for the list everybody lives in.',
+      w: ['ispf', 'data-set', 'pds'],
+    },
+    'lib-util': {
+      t: 'Library Utility (3.1)',
+      p: ['Works on one <b>PDS</b> and its members: browse, edit, delete and rename a member, or leave the option blank for the member list.',
+        'In a classic PDS a saved member is written at the end and the old copy stays behind as dead space. <code>C</code> (compress) wins the space back. A PDSE does that by itself.'],
+      try: 'Leave Option blank and press <b>Enter</b> for the member list of <b>JCL</b>.',
+      w: ['pds', 'data-set'],
+    },
+    'ds-util': {
+      t: 'Data Set Utility (3.2)',
+      p: ['Whole data sets: <code>A</code> allocate a new one, <code>R</code> rename, <code>D</code> delete, blank for its attributes.',
+        'Unlike a PC file, a data set can\'t just grow out of nothing. You <b>allocate</b> it first: how much disk space, which record format and length, sequential or partitioned.'],
+      try: 'Type <b>A</b> on the Option line, a name like <b>MY.NEW.DATA</b>, and press Enter.',
+      w: ['data-set', 'catalog', 'high-level-qualifier', 'racf'],
+    },
+    'alloc-new': {
+      t: 'Allocate New Data Set',
+      p: ['<b>Space</b>: a primary amount, plus a secondary amount the system adds (up to 15 times) when the data set fills up. Run out and the job abends with <code>B37</code>.',
+        '<b>Record format</b> FB = fixed-length records in blocks, VB = variable length. <b>Record length</b> 80 is the classic card image. <b>Directory blocks</b> above zero make it a PDS; type <code>LIBRARY</code> makes it a PDSE.'],
+      try: 'Set <b>Directory blocks</b> to <b>5</b> for a PDS (or leave 0 for a sequential data set) and press <b>Enter</b>.',
+      w: ['data-set', 'pds'],
+    },
+    'ds-info': {
+      t: 'Data Set Information',
+      p: ['Everything the system knows about a data set: the <b>volume</b> it lives on, its organization (PS sequential, PO partitioned), record format and length, and how much of its allocated space is used.'],
+      try: 'Press <b>Enter</b> or <b>F3</b> to go back.',
+      w: ['data-set', 'pds', 'catalog'],
+    },
+    'rename-ds': {
+      t: 'Rename Data Set',
+      p: ['Renaming changes the catalog entry and the name on the volume. The data doesn\'t move. The first qualifier is the owner, so you can\'t rename something into another user\'s space.'],
+      try: 'Type the new name over the old one and press <b>Enter</b>.',
+      w: ['data-set', 'catalog', 'high-level-qualifier', 'racf'],
+    },
+    'confirm-del': {
+      t: 'Confirm Delete',
+      p: ['Deleting is final. z/OS has no recycle bin, so ISPF asks first. In a real shop a deleted data set comes back only from a backup.'],
+      try: '<b>Enter</b> deletes. <b>F3</b> keeps the data set.',
+      w: ['data-set', 'racf'],
+    },
+    movecopy: {
+      t: 'Move/Copy Utility (3.3)',
+      p: ['Copies a whole sequential data set, one member, or every member with <code>(*)</code>. First you name the <b>From</b> data set, then a second panel asks for the <b>To</b>.'],
+      try: 'Type <b>C</b> on the Option line with <b>JCL(HELLO)</b> as the From name.',
+      w: ['data-set', 'pds'],
+    },
+    'movecopy-to': {
+      t: 'Move/Copy: the "To" data set',
+      p: ['Name where it should go. Add a member name in parentheses to rename on the way. A like-named member is only overwritten if you select <b>Replace</b> with a <code>/</code>.'],
+      try: 'Type <b>JCL(HELLO2)</b> and press <b>Enter</b>, or name a data set that doesn\'t exist yet.',
+      w: ['data-set', 'pds'],
+    },
+    'alloc-like': {
+      t: 'Allocate Target Data Set',
+      p: ['The To data set doesn\'t exist. ISPF offers to allocate it with the same attributes as the one you are copying from, which is nearly always what you want.'],
+      try: 'Press <b>Enter</b> to take option 1.',
+      w: ['data-set'],
+    },
+    rexx: {
+      t: 'A REXX exec is running',
+      p: ['<b>REXX</b> is the scripting language of TSO. <code>SAY</code> writes a line, <code>PULL</code> waits for you to type one. A line that is not REXX is handed to TSO as a command.'],
+      try: 'Answer the question and press <b>Enter</b>. <code>***</code> means it is done.',
+      w: ['rexx', 'tso'],
+    },
     'dslist-entry': {
       t: 'Data Set List Utility (3.4)',
       p: ['Enter a <b>Dsname Level</b>, which is the first qualifier(s) of the names you want. Your user ID is the usual <b>high-level qualifier</b> (HLQ) for your own data sets.'],
@@ -208,14 +277,14 @@
     dslist: {
       t: 'DSLIST: your data sets',
       p: ['z/OS has no directories. A <b>data set</b> name is up to 44 characters in dot-separated qualifiers, and the <b>catalog</b> knows which disk volume (right column) holds it.',
-        'Type a line command in the left column next to a name: <code>B</code> browse, <code>E</code> edit, <code>V</code> view, <code>I</code> info, <code>D</code> delete.'],
-      try: 'Type <b>B</b> next to <b>Z85188.JCL</b> and press Enter.',
+        'Type a line command in the left column next to a name: <code>B</code> browse, <code>E</code> edit, <code>M</code> member list, <code>I</code> info, <code>R</code> rename, <code>D</code> delete, <code>CO</code> copy, <code>MO</code> move, <code>Z</code> compress. <b>F11</b> switches to the attributes view.'],
+      try: 'Type <b>B</b> next to <b>Z85188.JCL</b> and press Enter. Later: <b>CO</b> next to it to copy the whole library.',
       w: ['data-set', 'catalog', 'pds'],
     },
     memlist: {
       t: 'Member list',
       p: ['A <b>PDS</b> (partitioned data set) is like a folder of members, each a small file. JCL, source code and REXX execs usually live as members.'],
-      try: 'Type <b>S</b> next to <b>HELLO</b>. To make a new member: <b>S NEWNAME</b> on the command line (in Edit mode).',
+      try: 'Type <b>S</b> next to <b>HELLO</b>. To make a new member: <b>S NEWNAME</b> on the command line (in Edit mode). <b>J</b> submits a member as a job, <b>C</b> copies it, <b>R</b> renames it to the name you type under Prompt.',
       w: ['pds', 'data-set'],
     },
     browse: {
@@ -226,8 +295,8 @@
     },
     edit: {
       t: 'ISPF Editor',
-      p: ['Type over the text and press Enter to keep it. The numbers on the left are the <b>prefix area</b>. Type over them for line commands: <code>I</code> insert, <code>D</code> delete, <code>R</code> repeat (<code>I3</code> = 3 lines).',
-        'On the command line: <code>SAVE</code>, <code>CAN</code> to cancel, and <code>SUB</code> to submit this JCL as a batch job. <b>F3</b> saves and exits.'],
+      p: ['Type over the text and press Enter to keep it. The numbers on the left are the <b>prefix area</b>. Type over them for line commands: <code>I</code> insert, <code>D</code> delete, <code>R</code> repeat (<code>I3</code> = 3 lines). To copy or move, mark the source with <code>C</code> or <code>M</code> and the target with <code>A</code> (after) or <code>B</code> (before). Blocks take a pair: <code>CC</code>…<code>CC</code>, <code>MM</code>, <code>DD</code>, <code>RR</code>.',
+        'On the command line: <code>F text</code> finds (<b>F5</b> repeats), <code>C old new ALL</code> changes (<b>F6</b> repeats), <code>UNDO</code>, <code>RES</code> clears markers, <code>COLS</code> shows a ruler, <code>HILITE OFF</code> turns the colours off. <code>SAVE</code>, <code>CAN</code> to cancel, <code>SUB</code> to submit this JCL. <b>F3</b> saves and exits.'],
       try: 'In <b>JCL(HELLO)</b>, change the text after <code>SYSUT1 DD *</code>, then type <b>SUB</b> on the command line.',
       w: ['jcl', 'job-statement', 'exec-statement', 'dd-statement', 'system-utilities'],
     },
@@ -261,7 +330,7 @@
     'sdsf-out': {
       t: 'Reading job output',
       p: ['Look for <code>IEF142I … COND CODE 0000</code> (step ran fine), <code>IEF450I … ABEND=S806</code> (program not found), or <code>IEF212I DATA SET NOT FOUND</code> (JCL error). Finding these lines fast is a core skill.'],
-      try: 'Submit <b>JCL(BADPGM)</b> and <b>JCL(BADJCL)</b> and compare. Leave with <b>=X</b>, then <b>LOGOFF</b>.',
+      try: 'Submit <b>JCL(BADPGM)</b> and <b>JCL(BADJCL)</b> and compare. Then the ones that do real work: <b>SORTJOB</b>, <b>COBRUN</b> (compile, link and run COBOL), <b>AMS</b>, <b>BACKUP</b>, <b>TSOBATCH</b>.',
       w: ['abend', 'condition-code', 'sysout'],
     },
     'sdsf-log': { t: 'System log', p: ['The SYSLOG records everything the system says: logons, jobs starting and ending. Operators watch it all day.'], try: '<b>F8</b> to scroll, <b>F3</b> to go back.', w: ['jes', 'z-os'] },
@@ -285,6 +354,11 @@
     ['browse', 'Browse a member', '<code>B</code> next to your .JCL data set, then <code>S</code> next to HELLO.'],
     ['submit', 'Submit a batch job', 'Edit <code>JCL(HELLO)</code> and type <code>SUB</code> on the command line.'],
     ['joboutput', 'Read the job output in SDSF', '<code>=S.ST</code>, then <code>S</code> next to your job.'],
+    ['change', 'Change text with an editor command', 'In the editor: <code>C HELLO GOODBYE ALL</code>. <code>UNDO</code> takes it back.'],
+    ['alloc', 'Allocate a new data set', '<code>=3.2</code>, option <code>A</code>, name <code>MY.LIB</code>, directory blocks 5.'],
+    ['copy', 'Copy a member into it', '<code>=3.3</code>, option <code>C</code>, from <code>JCL(HELLO)</code>, to <code>MY.LIB</code>.'],
+    ['rexx', 'Run a REXX exec', 'On any command line: <code>TSO EXEC SOURCE(GREET)</code>.'],
+    ['cobol', 'Compile and run a COBOL program', 'Submit <code>JCL(COBRUN)</code> and read the output of step GO.'],
     ['logoff', 'Leave cleanly', '<code>=X</code> to leave ISPF, then <code>LOGOFF</code>.'],
   ];
   // Progress lives only as long as the session: disconnecting or leaving the
@@ -300,12 +374,13 @@
     $('score').textContent = MISSIONS.filter(m => done.has(m[0])).length + ' / ' + MISSIONS.length;
   }
   $('reset-missions').addEventListener('click', resetMissions);
+  const mark = ev => {
+    if (MISSIONS.some(m => m[0] === ev) && !done.has(ev)) { done.add(ev); drawMissions(); }
+  };
   host.on((ev, data) => {
     if (ev === 'view') updateWhere(data);
-    if (MISSIONS.some(m => m[0] === ev) && !done.has(ev)) {
-      done.add(ev);
-      drawMissions();
-    }
+    mark(ev);
+    if (ev === 'submit' && data.name === 'COBRUN' && data.status === 'CC 0000') mark('cobol');
   });
 
   // ---------- theme toggle (shared with ZSpeak) ---------------------------

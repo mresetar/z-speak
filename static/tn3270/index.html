@@ -38,7 +38,7 @@
     <section class="intro">
       <h1>Log on to a mainframe <span class="muted">(a pretend one)</span></h1>
       <p>This page plays both parts: a <b>3270 terminal emulator</b> and a small <b>z/OS host</b> behind it.
-        Connect, log on to TSO, look around in ISPF, submit a batch job and read its output.
+        Connect, log on to TSO, create and edit data sets in ISPF, run a REXX exec, compile a COBOL program, submit batch jobs and read their output.
         Nothing leaves your browser, and you can't break anything.</p>
     </section>
 
@@ -77,7 +77,7 @@
           <table>
             <tr><th>3270 key</th><th>On your keyboard</th><th>What it does</th></tr>
             <tr><td>Enter</td><td><kbd>Return</kbd></td><td>Sends the screen to the host. Nothing reaches z/OS until you press it.</td></tr>
-            <tr><td>PF1–PF12</td><td><kbd>F1</kbd>–<kbd>F12</kbd> (Shift = PF13–24)</td><td>Program function keys. F3 = back/exit, F7/F8 = scroll up/down. Mac: use the buttons, <kbd>fn</kbd>, or <kbd>PgUp</kbd>/<kbd>PgDn</kbd> for F7/F8.</td></tr>
+            <tr><td>PF1–PF12</td><td><kbd>F1</kbd>–<kbd>F12</kbd> (Shift = PF13–24)</td><td>Program function keys. F3 = back/exit, F5/F6 = repeat find/change in the editor, F7/F8 = scroll up/down, F12 = cancel. Mac: use the buttons, <kbd>fn</kbd>, or <kbd>PgUp</kbd>/<kbd>PgDn</kbd> for F7/F8.</td></tr>
             <tr><td>Clear</td><td><kbd>Esc</kbd></td><td>Wipes the screen and tells the host.</td></tr>
             <tr><td>PA1 / PA2</td><td><kbd>Alt</kbd>+<kbd>1</kbd> / <kbd>Alt</kbd>+<kbd>2</kbd></td><td>Attention (interrupt) / reshow the screen.</td></tr>
             <tr><td>Tab / Back-tab</td><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Jump between input fields. You can only type in input fields.</td></tr>
@@ -111,7 +111,7 @@
   </main>
 
   <footer class="foot wrap">
-    <p class="muted">The host is simulated: messages are modelled on real z/OS ones but simplified, and only a small part of TSO, ISPF and SDSF is here.
+    <p class="muted">The host is simulated: messages are modelled on real z/OS ones but simplified, and only a part of TSO, ISPF, SDSF and the batch utilities is here. REXX and COBOL are small subsets.
       Credentials are not checked, so any password works. Never type a real one.</p>
   </footer>
 
