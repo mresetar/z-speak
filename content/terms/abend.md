@@ -5,7 +5,7 @@ params:
   short: "A program or job terminating abnormally, identified by a system or user completion code."
   ref: { title: "IBM Docs: z/OS Basic Skills — Overview of an abend", url: "https://www.ibm.com/docs/en/zos-basic-skills?topic=abend-overview" }
   aka: ["S0C7", "abend code"]
-  related: ["JCL", "SDSF", "COBOL", "Packed Decimal", "Fault Analyzer", "SLIP", "Dump", "REGION", "ESTAE", "Checkpoint/Restart"]
+  related: ["JCL", "SDSF", "COBOL", "Packed Decimal", "Fault Analyzer", "SLIP", "Dump", "REGION", "ESTAE", "Checkpoint/Restart", "Message ID"]
   links:
     - title: "Wikipedia: Abnormal end"
       url: "https://en.wikipedia.org/wiki/Abnormal_end"

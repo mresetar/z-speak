@@ -5,7 +5,7 @@ params:
   short: "Ordinary Linux distributions compiled for the mainframe, usually on IFL engines."
   ref: { title: "IBM Docs: Linux on IBM Z and LinuxONE", url: "https://www.ibm.com/docs/en/linux-on-z" }
   aka: ["zLinux", "s390x"]
-  related: ["z/VM", "Specialty Engine", "LPAR", "LinuxONE", "Secure Execution", "OpenShift on IBM Z", "NFS", "Fortran", "Go on z/OS"]
+  related: ["z/VM", "Specialty Engine", "LPAR", "LinuxONE", "Secure Execution", "OpenShift on IBM Z", "NFS", "Fortran", "Go on z/OS", "KVM on IBM Z"]
   links:
     - title: "Wikipedia: Linux on IBM Z"
       url: "https://en.wikipedia.org/wiki/Linux_on_IBM_Z"

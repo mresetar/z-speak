@@ -3,7 +3,7 @@ title: "z/VM"
 params:
   expansion: "z/Virtual Machine"
   short: "A hypervisor operating system that runs hundreds or thousands of guests inside one LPAR."
-  related: ["LPAR", "PR/SM", "CP", "Linux on IBM Z", "z/OS", "Minidisk", "z/VSE", "CMS"]
+  related: ["LPAR", "PR/SM", "CP", "Linux on IBM Z", "z/OS", "Minidisk", "z/VSE", "CMS", "VSWITCH", "KVM on IBM Z"]
   ref: { title: "IBM Docs: z/VM", url: "https://www.ibm.com/docs/en/zvm" }
   aka: ["VM", "VM/ESA", "VM/370"]
   links:

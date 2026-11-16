@@ -5,7 +5,7 @@ params:
   short: "“Storage” on the mainframe means memory, not disk. Say “DASD” when you mean disk."
   ref: { title: "IBM Docs: z/OS Basic Skills — What is virtual storage?", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zconcepts/zconcepts_81.htm" }
   aka: ["storage", "real storage", "auxiliary storage"]
-  related: ["Address Space", "AMODE and RMODE", "Paging", "DASD", "z/Architecture", "Data Space", "Storage Key", "Common Storage", "The Line and the Bar", "REGION"]
+  related: ["Address Space", "AMODE and RMODE", "Paging", "DASD", "z/Architecture", "Data Space", "Storage Key", "Common Storage", "The Line and the Bar", "REGION", "Storage Subpool"]
   links:
     - title: "IBM Docs: Virtual storage overview"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=overview-virtual-storage"

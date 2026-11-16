@@ -3,7 +3,7 @@ title: "COBOL"
 params:
   expansion: "Common Business-Oriented Language"
   short: "The language most mainframe business logic is written in — verbose, fixed-decimal, and still compiled every day."
-  related: ["JCL", "CICS", "Copybook", "Packed Decimal", "PL/I", "Binder", "SQLCODE", "Static and Dynamic SQL", "EIB", "C/C++", "Easytrieve"]
+  related: ["JCL", "CICS", "Copybook", "Packed Decimal", "PL/I", "Binder", "SQLCODE", "Static and Dynamic SQL", "EIB", "C/C++", "Easytrieve", "Static and Dynamic CALL"]
   ref: { title: "IBM Docs: Enterprise COBOL for z/OS", url: "https://www.ibm.com/docs/en/cobol-zos" }
   aka: ["Enterprise COBOL", "COBOL for z/OS", "COBOL 6", "IGYCRCTL"]
   links:

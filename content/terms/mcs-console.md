@@ -5,7 +5,7 @@ params:
   short: "The operator interface where z/OS writes messages and takes commands."
   ref: { title: "IBM Docs: z/OS Basic Skills — Console configuration (MCS)", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zsysprog/zsysprogc_consoleconfig.htm" }
   aka: ["console", "WTO"]
-  related: ["SDSF", "z/OS", "System Automation", "MODIFY Command", "SYSLOG", "System Trace"]
+  related: ["SDSF", "z/OS", "System Automation", "MODIFY Command", "SYSLOG", "System Trace", "Message ID"]
   links:
     - title: "IBM Docs: Defining devices as MCS, HMCS, or SMCS consoles"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=configuration-defining-devices-as-mcs-hmcs-smcs-consoles"

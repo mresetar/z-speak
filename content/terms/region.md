@@ -5,7 +5,7 @@ params:
   short: "The JCL parameter that limits how much virtual storage a job step may obtain, and the usual suspect behind S878 and S80A abends."
   ref: { title: "IBM Docs: REGION parameter", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=statement-region-parameter" }
   aka: ["region size", "REGION=0M", "IEFUSI", "SMFLIMxx", "S878", "S80A", "S822"]
-  related: ["Virtual Storage", "The Line and the Bar", "JOB Statement", "EXEC Statement", "Address Space", "ABEND", "Common Storage"]
+  related: ["Virtual Storage", "The Line and the Bar", "JOB Statement", "EXEC Statement", "Address Space", "ABEND", "Common Storage", "Exit"]
 categories: ["Operating System"]
 tags: ["jcl", "memory", "batch"]
 ---

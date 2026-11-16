@@ -5,7 +5,7 @@ params:
   short: "The z/Architecture assembler — used for system exits, performance-critical code and anything close to the metal."
   ref: { title: "IBM Docs: z/OS — HLASM", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=hlasm" }
   aka: ["assembler", "BAL", "ALC", "ASM", "assembler language", "IBM assembler"]
-  related: ["COBOL", "Load Module", "z/OS", "CSECT", "GOFF", "Metal C", "Binder", "Control Block", "C/C++", "Fortran"]
+  related: ["COBOL", "Load Module", "z/OS", "CSECT", "GOFF", "Metal C", "Binder", "Control Block", "C/C++", "Fortran", "Word"]
   links:
     - title: "Wikipedia: IBM High Level Assembler"
       url: "https://en.wikipedia.org/wiki/IBM_High_Level_Assembler"

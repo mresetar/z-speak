@@ -5,7 +5,7 @@ params:
   short: "The number that identifies exactly which character encoding a piece of data uses — 037, 1047, 1208 and so on."
   ref: { title: "Wikipedia: CCSID", url: "https://en.wikipedia.org/wiki/CCSID" }
   aka: ["code page", "codepage", "IBM-1047", "IBM-037", "encoding", "chtag"]
-  related: ["EBCDIC", "z/OS UNIX", "Db2 for z/OS", "3270", "IND$FILE", "Zowe CLI", "OpenSSH", "FTP", "NFS", "Shell Script"]
+  related: ["EBCDIC", "z/OS UNIX", "Db2 for z/OS", "3270", "IND$FILE", "Zowe CLI", "OpenSSH", "FTP", "NFS", "Shell Script", "DBCS"]
   links:
     - title: "IBM Docs: Coded Character Set Identifiers"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=filemanager-coded-character-set-identifiers"

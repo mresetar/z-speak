@@ -4,8 +4,8 @@ params:
   expansion: "Link list and link pack area"
   short: "The system-wide search path for programs, plus the shared memory area where hot modules are pre-loaded."
   ref: { title: "IBM Docs: z/OS Basic Skills — Search order for programs (LNKLST)", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zsysprog/zsysprogc_searchorder.htm" }
-  aka: ["LPA", "link pack area", "LINKLIST"]
-  related: ["Load Module", "STEPLIB", "PARMLIB", "APF Authorization", "DD Statement", "LLA", "Reentrant Code"]
+  aka: ["LINKLIST", "link list", "PROGxx", "SETPROG LNKLST"]
+  related: ["Load Module", "STEPLIB", "PARMLIB", "APF Authorization", "DD Statement", "LLA", "Reentrant Code", "LPA"]
   links:
     - title: "IBM Docs: Changing the LNKLST concatenation"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=management-changing-lnklst-concatenation"

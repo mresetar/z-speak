@@ -5,7 +5,7 @@ params:
   short: "The interactive command-line session a user gets when they log on to z/OS."
   ref: { title: "IBM Docs: z/OS Basic Skills — What is TSO?", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zconcepts/zconc_whatistso.htm" }
   aka: ["TSO"]
-  related: ["ISPF", "REXX", "CLIST", "Address Space", "z/OS", "RACF", "z/OSMF", "Zowe CLI", "Dynamic Allocation", "Logical Unit", "Natural"]
+  related: ["ISPF", "REXX", "CLIST", "Address Space", "z/OS", "RACF", "z/OSMF", "Zowe CLI", "Dynamic Allocation", "Logical Unit", "Natural", "Batch TSO"]
   links:
     - title: "Wikipedia: Time Sharing Option"
       url: "https://en.wikipedia.org/wiki/Time_Sharing_Option"

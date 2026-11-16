@@ -5,7 +5,7 @@ params:
   short: "The component that queues, schedules and spools batch jobs and their output."
   ref: { title: "IBM Docs: z/OS Basic Skills — What is JES?", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zconcepts/zconc_whatisjes.htm" }
   aka: ["JES2", "JES3", "spool"]
-  related: ["JCL", "SDSF", "Address Space", "SYSOUT", "NJE", "HASP", "Initiator", "SYSLOG", "Subsystem", "FTP"]
+  related: ["JCL", "SDSF", "Address Space", "SYSOUT", "NJE", "HASP", "Initiator", "SYSLOG", "Subsystem", "FTP", "Internal Reader"]
   links:
     - title: "Wikipedia: MVS Job Entry Subsystems"
       url: "https://en.wikipedia.org/wiki/MVS_Job_Entry_Subsystems"

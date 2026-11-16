@@ -5,7 +5,7 @@ params:
   short: "The traditional IBM software pricing model on Z — billed on capacity, which is why MSUs and zIIPs dominate cost conversations."
   ref: { title: "IBM Docs: Monthly license charge (MLC) software pricing", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=framework-monthly-license-charge-mlc-software-pricing" }
   aka: ["sub-capacity pricing", "software pricing", "SCRT", "Tailored Fit Pricing"]
-  related: ["MSU", "Specialty Engine", "zIIP", "CPC"]
+  related: ["MSU", "Specialty Engine", "zIIP", "CPC", "Capping"]
   links:
     - title: "IBM Docs: Sub-capacity pricing planning tasks"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=pricing-sub-capacity-planning-tasks"

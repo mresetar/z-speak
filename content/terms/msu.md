@@ -5,7 +5,7 @@ params:
   short: "The capacity unit mainframe software is licensed by — and therefore the number everyone watches."
   ref: { title: "IBM Docs: Workload management and Workload License Charges", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=participants-workload-management-workload-license-charges" }
   aka: ["MIPS", "R4HA"]
-  related: ["LSPR", "MLC", "Specialty Engine", "WLM", "SMF", "CPU MF", "SAS"]
+  related: ["LSPR", "MLC", "Specialty Engine", "WLM", "SMF", "CPU MF", "SAS", "Capping"]
   links:
     - title: "IBM Docs: How the peak four-hour rolling average MSU value is determined"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=hdscpw-how-peak-four-hour-rolling-average-msu-value-is-determined"

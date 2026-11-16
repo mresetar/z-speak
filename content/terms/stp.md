@@ -5,7 +5,7 @@ params:
   short: "IBM Z's time synchronization: keeps every machine in a sysplex on the same clock, to the microsecond, over coupling links."
   ref: { title: "IBM Redbooks: IBM Z Server Time Protocol Guide", url: "https://www.redbooks.ibm.com/abstracts/sg248480.html" }
   aka: ["CTN", "Coordinated Timing Network", "Preferred Time Server", "PTS", "BTS", "Arbiter", "Sysplex Timer", "ETR"]
-  related: ["Parallel Sysplex", "Coupling Links", "HMC", "GDPS", "System Logger", "Db2 for z/OS"]
+  related: ["Parallel Sysplex", "Coupling Links", "HMC", "GDPS", "System Logger", "Db2 for z/OS", "TOD Clock"]
   links:
     - title: "Wikipedia: Server Time Protocol"
       url: "https://en.wikipedia.org/wiki/Server_Time_Protocol"

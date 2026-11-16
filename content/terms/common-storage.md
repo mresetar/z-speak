@@ -5,7 +5,7 @@ params:
   short: "The parts of virtual storage that appear at the same addresses in every address space, used by the system and subsystems to share data."
   ref: { title: "IBM Docs: Common service area (CSA/Extended CSA)", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=overview-common-service-area-csaextended-csa" }
   aka: ["CSA", "ECSA", "SQA", "ESQA", "common service area", "system queue area", "CSA creep"]
-  related: ["Virtual Storage", "Address Space", "The Line and the Bar", "Storage Key", "PARMLIB", "LNKLST", "Cross-Memory", "IPL", "REGION"]
+  related: ["Virtual Storage", "Address Space", "The Line and the Bar", "Storage Key", "PARMLIB", "LNKLST", "Cross-Memory", "IPL", "REGION", "Storage Subpool", "LPA"]
   links:
     - title: "IBM Docs: Using extended common service area (ECSA)"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=needs-using-extended-common-service-area-ecsa"

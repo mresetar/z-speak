@@ -5,7 +5,7 @@ params:
   short: "The mainframe's character encoding. Not ASCII, and the cause of a large share of integration bugs."
   ref: { title: "IBM Docs: z/OS Basic Skills — The EBCDIC character set", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zappldev/zappldev_14.htm" }
   aka: ["EBCDIC code page", "host code page"]
-  related: ["z/OS UNIX", "Packed Decimal", "Data Set", "CCSID", "C/C++", "Go on z/OS"]
+  related: ["z/OS UNIX", "Packed Decimal", "Data Set", "CCSID", "C/C++", "Go on z/OS", "DBCS"]
   links:
     - title: "Wikipedia: EBCDIC"
       url: "https://en.wikipedia.org/wiki/EBCDIC"

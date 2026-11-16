@@ -5,7 +5,7 @@ params:
   short: "The running record of every console message, command and reply on a z/OS system — the first place to look when anything happens."
   ref: { title: "IBM Docs: Hardcopy processing", url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=configuration-hardcopy-processing" }
   aka: ["OPERLOG", "hardcopy log", "system log", "SDSF LOG", "WRITELOG", "job log"]
-  related: ["MCS Console", "SDSF", "System Logger", "JES", "System Automation", "SYSOUT", "LOGREC", "Parallel Sysplex"]
+  related: ["MCS Console", "SDSF", "System Logger", "JES", "System Automation", "SYSOUT", "LOGREC", "Parallel Sysplex", "Message ID"]
   links:
     - title: "IBM Docs: Using OPERLOG"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=medium-using-operlog"

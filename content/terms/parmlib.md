@@ -5,7 +5,7 @@ params:
   short: "The configuration directory of z/OS — the members that decide how the system comes up and behaves."
   ref: { title: "IBM Docs: z/OS Basic Skills — z/OS system libraries (SYS1.PARMLIB)", url: "https://www.ibm.com/docs/en/zosbasics/com.ibm.zos.zsysprog/zsysprogc_syslibraries.htm" }
   aka: ["SYS1.PARMLIB", "PARMLIB member"]
-  related: ["IPL", "LNKLST", "APF Authorization", "Systems Programmer", "Health Checker", "SYSRES", "Subsystem", "DSNZPARM", "Resolver"]
+  related: ["IPL", "LNKLST", "APF Authorization", "Systems Programmer", "Health Checker", "SYSRES", "Subsystem", "DSNZPARM", "Resolver", "Exit"]
   links:
     - title: "IBM Docs: Members of SYS1.PARMLIB"
       url: "https://www.ibm.com/docs/en/zos/3.1.0?topic=reference-members-sys1parmlib"
